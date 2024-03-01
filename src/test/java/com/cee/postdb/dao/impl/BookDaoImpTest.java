@@ -1,10 +1,11 @@
-package com.cee.postdb.dao;
+package com.cee.postdb.dao.impl;
 
 
 import com.cee.postdb.dao.impl.BookDaoImp;
 import com.cee.postdb.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,5 +37,15 @@ public class BookDaoImpTest {
                 eq("INSERT INTO books (isbn, title, authorId) VALUES (?,?,?)"),
                 eq("2020-010-100"), eq("The Shadow against US"), eq(1L)
         );
+    }
+
+    @Test
+    public  void testThatFindOneBookGeneratesCorrectSql(){
+        underTest.find("2020-010-100");
+        verify(jdbcTemplate).query(
+               eq( "SELECT isbn, title, authorId from books where isbn = ? LIMIT 1"),
+                ArgumentMatchers.<BookDaoImp.BookRowMapper>any(),
+                eq("2020-010-100"));
+
     }
 }
