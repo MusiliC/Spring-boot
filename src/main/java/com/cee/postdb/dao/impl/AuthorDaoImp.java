@@ -1,5 +1,6 @@
 package com.cee.postdb.dao.impl;
 
+
 import com.cee.postdb.dao.AuthorDao;
 import com.cee.postdb.domain.Author;
 
@@ -10,7 +11,9 @@ import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthorDaoImp implements AuthorDao {
     private final JdbcTemplate jdbcTemplate;
 

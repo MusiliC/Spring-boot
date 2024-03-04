@@ -1,7 +1,7 @@
 package com.cee.postdb.dao.impl;
 
 
-import com.cee.postdb.dao.impl.BookDaoImp;
+import com.cee.postdb.TestDataUtil;
 import com.cee.postdb.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,16 +25,12 @@ public class BookDaoImpTest {
 
     @Test
     public  void testThatCreateBookGeneratesCorrectSql(){
-        Book book = Book.builder()
-                .isbn("2020-010-100")
-                .title("The Shadow against US")
-                .authorId(1L)
-                .build();
+        Book book = TestDataUtil.createTestBook();
 
         underTest.create(book);
 
         verify(jdbcTemplate).update(
-                eq("INSERT INTO books (isbn, title, authorId) VALUES (?,?,?)"),
+                eq("INSERT INTO books (isbn, title, author_id) VALUES (?,?,?)"),
                 eq("2020-010-100"), eq("The Shadow against US"), eq(1L)
         );
     }
@@ -43,7 +39,7 @@ public class BookDaoImpTest {
     public  void testThatFindOneBookGeneratesCorrectSql(){
         underTest.find("2020-010-100");
         verify(jdbcTemplate).query(
-               eq( "SELECT isbn, title, authorId from books where isbn = ? LIMIT 1"),
+               eq( "SELECT isbn, title, author_id from books where isbn = ? LIMIT 1"),
                 ArgumentMatchers.<BookDaoImp.BookRowMapper>any(),
                 eq("2020-010-100"));
 

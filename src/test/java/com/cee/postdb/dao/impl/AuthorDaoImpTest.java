@@ -1,6 +1,6 @@
 package com.cee.postdb.dao.impl;
 
-import com.cee.postdb.dao.impl.AuthorDaoImp;
+import com.cee.postdb.TestDataUtil;
 import com.cee.postdb.domain.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,11 +23,7 @@ public class AuthorDaoImpTest {
 
     @Test
     public void testThatCreateAuthorGeneratesCorrectSql() {
-        Author author = Author.builder()
-                .id(1L)
-                .name("Musili")
-                .age(18)
-                .build();
+        Author author = TestDataUtil.createTestAuthor();
         underTest.create(author);
 
         verify(jdbcTemplate).update(
