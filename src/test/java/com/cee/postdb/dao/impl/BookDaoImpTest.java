@@ -44,4 +44,13 @@ public class BookDaoImpTest {
                 eq("2020-010-100"));
 
     }
+
+    @Test
+    public  void testThatFindManyBooksGeneratesTheCorrectSql(){
+        underTest.findMany();
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn, title, author_id from books"),
+                ArgumentMatchers.<BookDaoImp.BookRowMapper>any()
+        );
+    }
 }

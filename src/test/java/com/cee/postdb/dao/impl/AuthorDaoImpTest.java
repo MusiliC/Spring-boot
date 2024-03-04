@@ -40,4 +40,13 @@ public class AuthorDaoImpTest {
                 ArgumentMatchers.<AuthorDaoImp.AuthorRowMapper>any(),
                 eq(1L));
     }
+
+    @Test
+    public void testThatFindManyAuthorsGeneratesTheCorrectSql(){
+        underTest.findMany();
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, age FROM authors"),
+                ArgumentMatchers.<AuthorDaoImp.AuthorRowMapper>any()
+        );
+    }
 }
