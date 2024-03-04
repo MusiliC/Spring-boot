@@ -10,4 +10,8 @@ public interface AuthorDao {
     Optional<Author> findOne(Long L);
 
     List<Author> findMany();
+
+    void update(long id, Author author);
+
+    void deleteAuthor(long id);
 }

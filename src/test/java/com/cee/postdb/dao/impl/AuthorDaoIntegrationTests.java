@@ -48,4 +48,25 @@ public class AuthorDaoIntegrationTests {
         assertThat(result).hasSize(3);
         assertThat(result).contains(author,authorA, authorB);
     }
+
+    @Test
+    public  void testThatAuthorsCanBeUpdated(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        author.setName("Updated Name");
+        underTest.update(author.getId(),author);
+        Optional<Author> result = underTest.findOne(author.getId());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(author);
+    }
+
+    @Test
+    public  void testThatAuthorsCanBeDeleted(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        underTest.deleteAuthor(author.getId());
+        Optional<Author> result = underTest.findOne(author.getId());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(author);
+    }
 }

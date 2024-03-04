@@ -2,6 +2,7 @@ package com.cee.postdb.dao.impl;
 
 
 import com.cee.postdb.TestDataUtil;
+import com.cee.postdb.domain.Author;
 import com.cee.postdb.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,5 +53,22 @@ public class BookDaoImpTest {
                 eq("SELECT isbn, title, author_id from books"),
                 ArgumentMatchers.<BookDaoImp.BookRowMapper>any()
         );
+    }
+
+    @Test
+    public void testThatUpdateBookGeneratesTheCorrectSql(){
+        Book book = TestDataUtil.createTestBook();
+        underTest.update(book.getIsbn(), book);
+
+        verify(jdbcTemplate).update(
+                "UPDATE books set isbn = ?, title = ?, author_id = ? WHERE isbn = ?",
+                "2020-010-100", "The Shadow against US", 1L,"2020-010-100"
+        );
+    }
+
+    @Test
+    public  void testThatDeleteBookGeneratesSql(){
+        underTest.deleteBook("2020-010-100");
+        verify(jdbcTemplate).update("DELETE FROM books where isbn = ?", "2020-010-100");
     }
 }
