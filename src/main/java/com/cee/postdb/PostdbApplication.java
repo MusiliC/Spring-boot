@@ -11,23 +11,12 @@ import lombok.extern.java.Log;
 
 @SpringBootApplication
 @Log
-public class PostdbApplication implements CommandLineRunner {
-
-	private final DataSource dataSource;
-
-	public PostdbApplication(final DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+public class PostdbApplication  {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PostdbApplication.class, args);
 	}
 
-	@Override
-	public void run(final String... args) {
-		log.info("Data source " + dataSource.toString());
-		final JdbcTemplate restTemplate = new JdbcTemplate(dataSource);
-		restTemplate.execute("select 1");
-	}
+
 
 }
