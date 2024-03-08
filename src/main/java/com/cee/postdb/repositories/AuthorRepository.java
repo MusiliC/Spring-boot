@@ -1,4 +1,9 @@
 package com.cee.postdb.repositories;
 
-public interface AuthorRepository {
+import com.cee.postdb.domain.Author;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AuthorRepository extends CrudRepository<Author, Long> {
 }

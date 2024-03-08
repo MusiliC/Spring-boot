@@ -24,34 +24,34 @@ public final class TestDataUtil {
 
     public static Author createTestAuthorB() {
         return Author.builder()
-                .id(4L)
+                .id(3L)
                 .name("Mayani")
                 .age(23)
                 .build();
     }
 
 
-    public static Book createTestBook() {
+    public static Book createTestBook(Author author) {
         return Book.builder()
                 .isbn("2020-010-100")
                 .title("The Shadow against US")
-                .author_id(1L)
+                .author(author)
                 .build();
     }
 
-    public static Book createTestBookA() {
+    public static Book createTestBookA(Author author) {
         return Book.builder()
                 .isbn("2020-010-200")
                 .title("Atomic Habits")
-                .author_id(1L)
+                .author(author)
                 .build();
     }
 
-    public static Book createTestBookB() {
+    public static Book createTestBookB(Author author) {
         return Book.builder()
                 .isbn("2020-010-300")
                 .title("The Superior way of a man")
-                .author_id(1L)
+                .author(author)
                 .build();
     }
 }
