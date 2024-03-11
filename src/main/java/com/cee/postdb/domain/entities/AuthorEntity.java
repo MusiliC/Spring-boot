@@ -1,4 +1,4 @@
-package com.cee.postdb.domain;
+package com.cee.postdb.domain.entities;
 
 
 
