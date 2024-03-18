@@ -1,4 +1,7 @@
 package com.cee.postdb.services;
 
-public class BookService {
+import com.cee.postdb.domain.entities.BookEntity;
+
+public interface BookService {
+    BookEntity createBook(String  isbn, BookEntity book);
 }

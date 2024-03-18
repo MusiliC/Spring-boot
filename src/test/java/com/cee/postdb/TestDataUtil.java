@@ -1,6 +1,8 @@
 package com.cee.postdb;
 
 
+import com.cee.postdb.domain.dto.AuthorDto;
+import com.cee.postdb.domain.dto.BookDto;
 import com.cee.postdb.domain.entities.AuthorEntity;
 import com.cee.postdb.domain.entities.BookEntity;
 
@@ -42,6 +44,14 @@ public final class TestDataUtil {
 
     public static BookEntity createTestBookA(AuthorEntity author) {
         return BookEntity.builder()
+                .isbn("2020-010-200")
+                .title("Atomic Habits")
+                .author(author)
+                .build();
+    }
+
+    public static BookDto createTestBookDtoA(AuthorDto author) {
+        return BookDto.builder()
                 .isbn("2020-010-200")
                 .title("Atomic Habits")
                 .author(author)
