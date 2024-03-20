@@ -2,6 +2,7 @@ package com.cee.postdb.controllers;
 
 import com.cee.postdb.TestDataUtil;
 import com.cee.postdb.domain.dto.BookDto;
+import com.cee.postdb.domain.entities.AuthorEntity;
 import com.cee.postdb.domain.entities.BookEntity;
 import com.cee.postdb.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,4 +98,30 @@ class BookControllerIntegrationTest {
 
         );
     }
+
+        // @Test
+        // public void testThatGetBookReturnsStatus201() throws Exception {
+
+        //         BookEntity bookEntity = TestDataUtil.createTestBook(null);
+             
+        //         bookService.createBook(null, bookEntity);
+
+        //         mockMvc.perform(
+        //                         MockMvcRequestBuilders.get("/books/1")
+        //                                         .contentType(MediaType.APPLICATION_JSON)
+
+        //         ).andExpect(
+        //                         MockMvcResultMatchers.status().isOk());
+        // }
+
+        // @Test
+        // public void testThatListBookReturns404WhenNoBook() throws Exception {
+
+        //         mockMvc.perform(
+        //                         MockMvcRequestBuilders.get("/books/99")
+        //                                         .contentType(MediaType.APPLICATION_JSON)
+
+        //         ).andExpect(
+        //                         MockMvcResultMatchers.status().isNotFound());
+        // }
 }
