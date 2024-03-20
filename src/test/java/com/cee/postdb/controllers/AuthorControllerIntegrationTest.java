@@ -2,6 +2,7 @@ package com.cee.postdb.controllers;
 
 import com.cee.postdb.TestDataUtil;
 import com.cee.postdb.domain.entities.AuthorEntity;
+import com.cee.postdb.services.AuthorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -25,12 +26,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthorControllerIntegrationTest {
 
     private MockMvc mockMvc;
+    private AuthorService authorService;
+
+
 
     private ObjectMapper objectMapper;
 
     @Autowired
-    public AuthorControllerIntegrationTest(MockMvc mockMvc) {
+    public AuthorControllerIntegrationTest(MockMvc mockMvc, AuthorService authorService) {
         this.mockMvc = mockMvc;
+        this.authorService = authorService;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -54,6 +59,7 @@ class AuthorControllerIntegrationTest {
         AuthorEntity author =  TestDataUtil.createTestAuthor();
         author.setId(null);
 
+
         String authorJson = objectMapper.writeValueAsString(author);
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/authors")
@@ -67,4 +73,36 @@ class AuthorControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.age").value(28)
         );
     }
+
+    @Test
+    public  void testThatListAuthorsReturnsStatus201() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public  void testThatListAuthorsReturnsListOfAuthors() throws Exception {
+
+        AuthorEntity author =  TestDataUtil.createTestAuthor();
+        author.setId(null);
+        authorService.createAuthor(author);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON)
+
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value("Musili")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].age").value(28)
+        );
+    }
+
 }

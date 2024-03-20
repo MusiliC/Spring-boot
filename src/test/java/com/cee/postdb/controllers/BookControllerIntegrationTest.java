@@ -2,6 +2,8 @@ package com.cee.postdb.controllers;
 
 import com.cee.postdb.TestDataUtil;
 import com.cee.postdb.domain.dto.BookDto;
+import com.cee.postdb.domain.entities.BookEntity;
+import com.cee.postdb.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,12 +26,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookControllerIntegrationTest {
 
     private MockMvc mockMvc;
+    private BookService bookService;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public BookControllerIntegrationTest(MockMvc mockMvc) {
+    public BookControllerIntegrationTest(MockMvc mockMvc, BookService bookService) {
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
+        this.bookService = bookService;
     }
 
     @Test
@@ -46,7 +50,7 @@ class BookControllerIntegrationTest {
                 MockMvcResultMatchers.status().isCreated()
         );
     }
-    
+
 
     @Test
     public  void testThatCreateBookSuccessfullyReturnsCreatedBook() throws Exception {
@@ -60,6 +64,37 @@ class BookControllerIntegrationTest {
                         .content(bookJson)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn())
+        );
+    }
+
+    @Test
+    public  void testThatListBooksReturnsHttp201Created() throws Exception {
+        BookDto bookDto = TestDataUtil.createTestBookDtoA(null);
+
+        String bookJson = objectMapper.writeValueAsString(bookDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public  void testThatListBooksReturnsListOfBooks() throws Exception {
+        BookEntity bookEntity = TestDataUtil.createTestBook(null);
+        bookService.createBook(bookEntity.getIsbn(), bookEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isbn").value("2020-010-100")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].title").value("The Shadow against US")
+
         );
     }
 }
