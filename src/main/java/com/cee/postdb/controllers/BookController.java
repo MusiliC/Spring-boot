@@ -1,8 +1,7 @@
 package com.cee.postdb.controllers;
 
-import com.cee.postdb.domain.dto.AuthorDto;
 import com.cee.postdb.domain.dto.BookDto;
-import com.cee.postdb.domain.entities.AuthorEntity;
+
 import com.cee.postdb.domain.entities.BookEntity;
 import com.cee.postdb.mappers.Mapper;
 import com.cee.postdb.services.BookService;
@@ -27,11 +26,18 @@ public class BookController {
     }
 
     @PutMapping("/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
         BookEntity bookEntity = bookMapper.mapFrom(bookDto);
-        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+        Boolean bookExists = bookService.isExists(isbn);
+        BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
         BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
-        return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        if (bookExists) {
+            // updated
+            return new ResponseEntity<>(savedBookDto, HttpStatus.OK);
+        } else {
+            // Created
+            return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping(path = "/books")
