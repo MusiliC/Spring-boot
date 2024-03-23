@@ -17,6 +17,14 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static AuthorDto createTestAuthorDto() {
+        return AuthorDto.builder()
+                .id(1L)
+                .name("Musili")
+                .age(28)
+                .build();
+    }
+
     public static AuthorEntity createTestAuthorA() {
         return AuthorEntity.builder()
                 .id(2L)
@@ -65,4 +73,8 @@ public final class TestDataUtil {
                 .author(author)
                 .build();
     }
+
+
+
+ 
 }
