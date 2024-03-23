@@ -172,4 +172,20 @@ class AuthorControllerIntegrationTest {
                                                 MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge()));
         }
 
+        @Test
+        public void testThatPartialUpdateExistingAuthorReturnsHttpStatus20Ok() throws Exception {
+            AuthorEntity testAuthorEntityA = TestDataUtil.createTestAuthor();
+            AuthorEntity savedAuthor = authorService.saveAuthor(testAuthorEntityA);
+    
+            AuthorDto testAuthorDtoA = TestDataUtil.createTestAuthorDto();
+            testAuthorDtoA.setName("UPDATED");
+            String authorDtoJson = objectMapper.writeValueAsString(testAuthorDtoA);
+    
+            mockMvc.perform(
+                    MockMvcRequestBuilders.patch("/authors/" + savedAuthor.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(authorDtoJson)
+            ).andExpect(MockMvcResultMatchers.status().isOk());
+        }
+
 }
