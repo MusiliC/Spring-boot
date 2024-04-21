@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookEntity> findAll(Pageable pageable) {
-        throw new UnsupportedOperationException("findAll of BookServiceImpl class is not implemented");
+        return  bookRepository.findAll(pageable);
     }
 
 
